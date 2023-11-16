@@ -1,7 +1,8 @@
 import { Component } from "react";
 import { nanoid } from "nanoid";
-import { Formik, Field, Form, ErrorMessage } from 'formik';
+import { Formik, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import { StyledForm, StyledField, LabelTitle, AddButton } from "./ContactForm.styled";
 
 const FormSchema = Yup.object().shape({
     name: Yup.string().min(3, 'Too Short!').required('Required'),
@@ -13,7 +14,8 @@ export class ContactForm extends Component {
     nameId = nanoid();
     telephoneId = nanoid();
 
-    render() {
+  render() {
+      const { onAdd } = this.props;
         return (
   <div>
     <Formik
@@ -23,21 +25,21 @@ export class ContactForm extends Component {
     }}
     validationSchema={FormSchema}
       onSubmit={(values, actions) => {
-          console.log(values);
+          onAdd(values);
           actions.resetForm();
       }}
     >
-      <Form>
-        <label>Name</label>
-        <Field id={this.nameId} name="name" placeholder="Jane" />
+      <StyledForm>
+        <LabelTitle>Name</LabelTitle>
+        <StyledField id={this.nameId} name="name" placeholder="Jane" />
         <ErrorMessage name="name" />
 
-        <label>Number</label>
-        <Field id={this.telephoneId} name="number" placeholder="111-22-33" />
+        <LabelTitle>Number</LabelTitle>
+        <StyledField id={this.telephoneId} name="number" placeholder="111-22-33" />
         <ErrorMessage name="number" />        
         
-        <button type="submit">Add contact</button>
-      </Form>
+        <AddButton type="submit">Add contact</AddButton>
+      </StyledForm>
     </Formik>
   </div>
         )

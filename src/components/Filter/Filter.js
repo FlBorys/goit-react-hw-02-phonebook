@@ -7,15 +7,14 @@ export class Filter extends Component {
         input: ""
     }
 
-    inputId = nanoid();
-
-    inputChange = event => {
-    
-        this.setState({ input: event.currentTarget.value });
-        
-        this.props.onFilter(this.state);
-    
-    };
+  inputId = nanoid();
+  
+inputChange = event => {
+  const inputValue = event.currentTarget.value;
+  this.setState({ input: inputValue }, () => {
+    this.props.onFilter(this.state);
+  });
+};
 
   resetFilter = () => {
     this.setState({ input: "" }, () => {
